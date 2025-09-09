@@ -2,7 +2,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// Dùng model hợp lệ
+// Model hợp lệ
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 export default async function handler(req, res) {
@@ -11,7 +11,13 @@ export default async function handler(req, res) {
       const { name, species, ageMonths, weightKg, conditions } = req.body;
 
       const prompt = `
-      Bạn là bác sĩ thú y. Dựa trên thông tin sau hãy đưa ra gợi ý chăm sóc thú cưng:
+      Bạn là bác sĩ thú y. Hãy trả lời theo đúng format sau:
+
+      Sức khoẻ: (liệt kê lời khuyên về tình trạng sức khoẻ, phòng bệnh, khám định kỳ)
+      Dinh dưỡng: (liệt kê lời khuyên về chế độ ăn, thực phẩm nên/không nên dùng)
+      Chăm sóc: (liệt kê lời khuyên về vệ sinh, môi trường sống, vận động)
+
+      Thông tin thú cưng:
       - Tên: ${name}
       - Loài: ${species}
       - Tuổi (tháng): ${ageMonths}
