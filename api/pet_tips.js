@@ -1,45 +1,34 @@
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+// Dùng model hợp lệ
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
+  if (req.method === "POST") {
+    try {
+      const { name, species, ageMonths, weightKg, conditions } = req.body;
 
-  try {
-    const { name, species, ageMonths, weightKg, conditions } = req.body;
+      const prompt = `
+      Bạn là bác sĩ thú y. Dựa trên thông tin sau hãy đưa ra gợi ý chăm sóc thú cưng:
+      - Tên: ${name}
+      - Loài: ${species}
+      - Tuổi (tháng): ${ageMonths}
+      - Cân nặng (kg): ${weightKg}
+      - Tình trạng sức khoẻ: ${conditions.join(", ")}
+      `;
 
-    const prompt = `Bạn là bác sĩ thú y. Hãy đưa ra tips chăm sóc cho thú cưng dựa trên dữ liệu:
-    - Tên: ${name}
-    - Loài: ${species}
-    - Tuổi: ${ageMonths} tháng
-    - Cân nặng: ${weightKg} kg
-    - Tình trạng sức khỏe: ${conditions.join(", ")}`;
+      const result = await model.generateContent(prompt);
+      const response = result.response;
+      const text = response.text();
 
-    const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" +
-        process.env.GEMINI_API_KEY,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [
-            {
-              role: "user",
-              parts: [{ text: prompt }]
-            }
-          ]
-        })
-      }
-    );
-
-    const data = await response.json();
-
-    console.log("Gemini raw response:", JSON.stringify(data, null, 2));
-
-    const tip =
-      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "Không thể tạo gợi ý từ Gemini.";
-
-    res.status(200).json({ tip });
-  } catch (err) {
-    res.status(500).json({ error: "Gemini error", details: err.message });
+      res.status(200).json({ tip: text });
+    } catch (error) {
+      console.error("Gemini error:", error);
+      res.status(500).json({ error: "Gemini error", details: error.message });
+    }
+  } else {
+    res.status(405).json({ error: "Method not allowed" });
   }
 }
