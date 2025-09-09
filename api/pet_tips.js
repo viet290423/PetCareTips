@@ -1,4 +1,3 @@
-// api/pet_tips.js
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -14,7 +13,6 @@ export default async function handler(req, res) {
     - Cân nặng: ${weightKg} kg
     - Tình trạng sức khỏe: ${conditions.join(", ")}`;
 
-    // Gọi Gemini API
     const response = await fetch(
       "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" +
         process.env.GEMINI_API_KEY,
@@ -24,6 +22,7 @@ export default async function handler(req, res) {
         body: JSON.stringify({
           contents: [
             {
+              role: "user",
               parts: [{ text: prompt }]
             }
           ]
@@ -33,8 +32,9 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    // Lấy text trả về từ Gemini
-    const tip = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "Không có gợi ý.";
+    const tip =
+      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+      "Không thể tạo gợi ý từ Gemini.";
 
     res.status(200).json({ tip });
   } catch (err) {
