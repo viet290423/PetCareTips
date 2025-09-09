@@ -1,0 +1,22 @@
+{
+  "name": "pet-care-tips",
+  "version": "1.0.0",
+  "description": "Pet care tips API using Gemini AI",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "node api/pet_tips.js"
+  },
+  "keywords": [
+    "vercel",
+    "gemini",
+    "pet-care",
+    "ai"
+  ],
+  "author": "nguyen duc viet",
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.3.0"
+  }
+}
