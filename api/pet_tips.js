@@ -32,6 +32,8 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
+    console.log("Gemini raw response:", JSON.stringify(data, null, 2));
+
     const tip =
       data?.candidates?.[0]?.content?.parts?.[0]?.text ||
       "Không thể tạo gợi ý từ Gemini.";
