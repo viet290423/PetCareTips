@@ -29,10 +29,6 @@ export default async function handler(req, res) {
       - Vận động & tinh thần: ...
 
       Thông tin thú cưng:
-      - Tên: ${name}
-      - Loài: ${species}
-      - Tuổi (tháng): ${ageMonths}
-      - Cân nặng (kg): ${weightKg}
       - Tình trạng sức khoẻ: ${conditions.join(", ")}
       `;
 
@@ -40,7 +36,7 @@ export default async function handler(req, res) {
       const response = result.response;
       const text = response.text();
 
-      res.status(200).json({ tip: text });
+      res.status(200).json({ tip: text }); 
     } catch (error) {
       console.error("Gemini error:", error);
       res.status(500).json({ error: "Gemini error", details: error.message });
