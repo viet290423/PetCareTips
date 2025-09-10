@@ -32,10 +32,6 @@ export default async function handler(req, res) {
         - Vận động & tinh thần: ...
 
         Thông tin thú cưng:
-        - Tên: ${name}
-        - Loài: ${species}
-        - Tuổi (tháng): ${ageMonths}
-        - Cân nặng (kg): ${weightKg}
         - Tình trạng sức khoẻ: ${conditions?.join(", ") || "không có"}
         `;
       } else if (mode === "growth") {
@@ -47,7 +43,7 @@ export default async function handler(req, res) {
         - Lịch sử cân nặng: ${JSON.stringify(weightHistory)}
 
         Nếu cân nặng thay đổi bất thường, hãy:
-        1. Đưa ra cảnh báo (tăng/giảm nhanh).
+        1. Đưa ra cảnh báo (tăng/giảm nhanh, tăng giảm không ổn định trong lịch sử 1 tuần trở lại đây).
         2. Đưa ra tips điều chỉnh chi tiết cho chế độ ăn, vận động, và chăm sóc.
         3. Giữ câu trả lời ngắn gọn, dễ hiểu cho người nuôi thú cưng.
         `;
