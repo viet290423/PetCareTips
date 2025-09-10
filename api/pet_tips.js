@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         // Gợi ý chăm sóc chung
         prompt = `
         Bạn là bác sĩ thú y. Hãy trả lời theo đúng format sau, với các mục con rõ ràng. 
-        Không thêm thắt tiêu đề khác ngoài cấu trúc dưới đây.
+        Không thêm thắt tiêu đề khác ngoài cấu trúc dưới đây. Bắt đầu từ tips cho mục Sức khoẻ: 
 
         Sức khoẻ:
         - Khám định kỳ: ...
