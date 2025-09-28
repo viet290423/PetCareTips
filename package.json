@@ -17,6 +17,6 @@
   "author": "nguyen duc viet",
   "license": "MIT",
   "dependencies": {
-    "@google/generative-ai": "^0.3.0"
+    "@google/generative-ai": "^0.3.1"
   }
 }
